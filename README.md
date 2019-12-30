@@ -16,11 +16,11 @@ with positions like that:
 
 
 EXIST_DATA = True
-PUB_DIR = r'D:\skrypty\py\news_browser_3_plusk\static\pub'  # Where save selected articles by Flask
+PUB_DIR = r'D:\pub'  # Where save selected articles by Flask
 NEWS_PER_PAGE = 500 # articles per page
 LOCALHOST_URL = "http://127.0.0.1:5000" # Use default from Flask serving or unicorn
 
-BASE_SETTINGS_DIR = r'D:\Pliki z danymi\Bieżące przedsięwzięcia\Awasu\py-module\settings'  # Settings dir
+BASE_SETTINGS_DIR = r'D:\py-module\settings'  # Settings dir
 
 '''
 Create at this dir txt file fx. ch_list_process.txt and put names of channels to use fx.
