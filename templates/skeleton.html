@@ -1,0 +1,93 @@
+{% import "skeleton/base.html" as helpers %}
+<!DOCTYPE html>
+<html>
+{{ helpers.generate_head() }}
+<body>
+<h1></h1>
+{{ helpers.generate_nav(menu_folders) }}
+<div class="infobox" style=>
+    <h2>Info</h2>
+    <p>Articles: {{df_size.get('Item URL', df_size|length) }}<br>Pages: [{{ page }}] / [{{ count_pages }}]</p>
+</div>
+<br>
+{% if exist_data %}
+    <p><span>Articles: {{ df_size.get('Item URL', df_size|length) }}</span> | To read: <span>{{ articles_to_read }}</span> | Current page: <span>[{{ page }}] / [{{ count_pages }}]</span></p>
+    <table id="awasu-news-data">
+        <thead>
+            <tr>
+                <th>Channel</th>
+                <th>Title</th>
+                <th>Published</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+    <tbody>
+    {% for index, art_data in articles_data.iterrows() %}
+        {% if art_data['Channel Name'] != 'nan'  %}
+            <tr>
+                <td>{{ art_data['Channel Name'] }}</td>
+                <td>{{ art_data['Item Title'] }}</td>
+                <td>{{ art_data['Published'] }}</td>
+                <td>{{ art_data['Item URL'] }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+{% endif %}
+<hr>
+    {% if show_paginator %}
+        <div class="pages">
+            <a href="{{ url_for('show_page', mode=paginator_mode, option=paginator_option, page=paginator_page) }}">PREV [{{ paginator_page - 1 }}]</a>
+            <a href="{{ url_for('show_page', mode=paginator_mode, option=paginator_option, page=paginator_page) }}">NEXT [{{ paginator_page }}]</a>
+        </div>
+    {% endif %}
+{% if exist_data %}
+<script>
+let table = new Tabulator("#awasu-news-data", {
+    height: "{{ articles_data|df_to_pxsize}}px",
+    layout: "fitColumns",
+    groupBy: "Channel",
+    columns: [ //Define Table Columns
+        {title: "Channel", field: "Channel", width: 150},
+        {title: "Title", field: "Title"},
+        {title: "Published", field: "Published"},
+        {title: "Link", field: "Link", formatter: "link", formatterParams: {urlField: "Link", target: "_blank"}},
+    ],
+    rowClick(e, row) {
+        var row_data = row.getData();
+        console.log(row_data);
+        let art_data = {
+            'channel': row_data.Channel,
+            'title': row_data.Title,
+            'url': row_data.Link,
+            'published': row_data.Published,
+            'view': window.location.pathname
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '{{url_for("add_article")}}',
+            contentType: 'application/json;charset=UTF-8',
+            dataType: "json",
+            data: JSON.stringify(art_data),
+            success: function (response) {
+                console.log(response);
+                let add_info;
+                let pages_info;
+                pages_info = "Articles: {{df_size.get('Item URL', df_size|length) }}<br>Pages: [{{ page }}] / [{{ count_pages }}]<br>To view:{{ articles_to_read }}<br>"
+                add_info = "<hr><b>Last added</b>:<br>" + response['info'] + "<br>Links: <span>"
+                    + response['count'] + "</span>";
+                let final_text = pages_info + add_info;
+                $(".infobox p").html(final_text);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    },
+
+});
+</script>
+{% endif %}
+</body>
+</html>

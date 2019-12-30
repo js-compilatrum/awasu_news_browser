@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Awasu News</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pace.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+<body>
+<nav>
+    <a href="{{ url_for('index_menu') }}" class="btn_root">[Index]</a>
+    <a href="{{ url_for("all_news") }}" class="btn_root">[ALL]</a>
+    <a href="{{ url_for("favorite", option='ch_list_process') }}" class="btn_root">[FAV]</a>
+    <a href="{{ url_for("quick", limit_news=10) }}" class="btn_root">[Q10]</a>
+    <a href="{{ url_for("quick", limit_news=25) }}" class="btn_root">[Q25]</a>
+    {% if menu_folders %}
+        {% for menu_folder_item in menu_folders %}
+            <a href="{{ url_for("infolder", position=menu_folder_item['position']) }}">{{ menu_folder_item['name']|repair_pl_chars }}</a>
+        {% endfor %}
+    {% endif %}
+</nav>
+</body>
+</html>

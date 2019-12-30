@@ -1,0 +1,28 @@
+{%  macro generate_head(title='Awasu News') %}
+  <head>
+    <meta charset="UTF-8">
+    <title>Awasu News</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pace.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+      <script src="{{ url_for('static', filename='js/pace.js') }}"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <!-- Tabulator -->
+      <link href="https://unpkg.com/tabulator-tables@4.2.1/dist/css/tabulator.min.css" rel="stylesheet">
+      <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.2.1/dist/js/tabulator.min.js"></script>
+    <title>{{ title }}</title>
+    </head>
+{% endmacro %}
+
+{% macro generate_nav(menu_folders) %}
+    <nav>
+        <a href="{{ url_for('index_menu') }}" class="btn_root">[Index]</a>
+        <a href="{{ url_for("show_page", mode='allnews', option='allnews', page=1) }}" class="btn_root">[ALL]</a>
+        <a href="{{ url_for('show_page', mode='favorite', option='ch_list_process', page=1) }}" class="btn_root">[FAV]</a>
+        <a href="{{ url_for('show_page', mode='searchagents', option='all', page=1) }}" class="btn_root">[SA]</a>
+        <a href="{{ url_for('show_page',mode='quick', option=10, page=1) }}" class="btn_root">[Q10]</a>
+        <a href="{{ url_for('show_page',mode='quick', option=25, page=1) }}" class="btn_root">[Q25]</a>
+            {% for menu_folder_item in menu_folders %}
+                <a href="{{ url_for("show_page", mode='infolder', option=menu_folder_item['position'], page=1) }}">{{ menu_folder_item['name']|repair_pl_chars }}</a>
+            {% endfor %}
+    </nav>
+{% endmacro %}

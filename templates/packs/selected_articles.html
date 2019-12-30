@@ -1,0 +1,137 @@
+{% import "skeleton/base.html" as helpers %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Awasu News</title>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pace.css') }}">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+      <style>
+          .datagrid table {
+              border-collapse: collapse; text-align: left; width: 100%;
+          }
+          .datagrid {
+              font: normal 16px 'Libre Franklin', Arial, Helvetica, sans-serif;
+              background: #fff;
+              overflow: hidden;
+              border: 1px solid #006699;
+              -webkit-border-radius: 3px;
+              -moz-border-radius: 3px;
+              border-radius: 3px;
+         }
+        .datagrid table td, .datagrid table th {
+            padding: 3px 10px;
+         }
+
+        .datagrid table thead th {
+            background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+            background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+            background-color:#006699;
+             color:#FFFFFF;
+             font-size: 15px;
+             font-weight: bold;
+             border-left: 1px solid #0070A8;
+         }
+         .datagrid table thead th:first-child {
+            border: none;
+         }
+        .datagrid table tbody td {
+             color: #00496B;
+             border-left: 1px solid #E1EEF4;
+            font-size: 16px;
+            font-weight: normal;
+         }
+        .datagrid table tbody td:first-child {
+            border-left: none;
+         }
+        .datagrid table tbody tr:last-child td {
+            border-bottom: none;
+         }
+        .datagrid table tbody tr td:first-of-type,
+        .datagrid table tbody tr td:nth-of-type(2n)
+        {
+            font-weight: bold;
+        }
+
+        .datagrid table tbody tr td:first-of-type {
+            width: 300px;
+        }
+        .datagrid table tbody tr td:nth-of-type(2)
+        {
+            width: 400px;
+        }
+        .datagrid table tbody tr td:nth-of-type(3)
+        {
+            width: 60px;
+        }
+        .datagrid table thead th:nth-of-type(4) {
+            width: 60px;
+        }
+        .datagrid table thead th:nth-of-type(5n) {
+            width: 40px;
+        }
+          .datagrid table tr:hover {
+              background-color: #ffceac;
+          }
+
+          .datagrid table a img {
+              width: 40px;
+              display: block;
+              margin: 0 auto;
+          }
+      </style>
+      <script src="{{ url_for('static', filename='js/pace.js') }}"></script>
+    <!-- Tabulator -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.2.0/dist/js/tabulator.min.js"></script>
+        <link href="https://unpkg.com/tabulator-tables@4.2.0/dist/css/tabulator.min.css" rel="stylesheet">
+
+  </head>
+<body>
+{{ helpers.generate_nav(menu_folders) }}
+<p class="mini-nav">
+    <span>Articles: {% if selected_arts.empty %} - </span>{% else %} {{selected_arts|length }} </span> | <img id="save-selected" src="{{ url_for("static", filename='img/menu/save.png') }}"> {% endif %}</p> | <a href="{{ url_for('save_selected') }}" class="btn">[ SAVE ARTICLES ]</a>
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Channel</th>
+                <th>Title</th>
+                <th>Published</th>
+                <th>URL</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if not selected_arts.empty %}
+        {% for index, art in selected_arts.iterrows() %}
+            <tr>
+                <td>{{ art['channel'] }}</td>
+                <td>{{ index }}.]{{ art['title'] }}</td>
+                <td>{{ art['published'] }}</td>
+                <td><a href="{{ art['url'] }}" target="_blank"><img src="{{ url_for('static', filename='img/menu/url.png') }}"></a></td>
+                <td><form method="post" action="{{ url_for("del_article", art_code=index) }}"><button type="submit" name="delete_button" value="{{ index }}"><img src="{{ url_for('static', filename='img/menu/delete.png') }}" alt="Delete" value="{{ index }}"></button></form></td>
+            </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>?</td>
+                <td>?</td>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#save-selected").click(function(){
+           alert("Count: [{% if selected_arts.empty %} - {% else %} {{selected_arts|length }} {% endif %}] articles prepare to save!");
+           $.get("{{ url_for("export_selected_2_txt") }}");
+        });
+    });
+</script>
+</body>
+</html>
