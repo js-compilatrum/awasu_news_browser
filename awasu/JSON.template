@@ -1,0 +1,14 @@
+{
+{%REPEAT% Channels-IfGroupingItems insert=","}
+"{%CHANNEL-METADATA% name}": [
+    {%REPEAT% FeedItems insert=","} {
+        "id": "{%ITEM-METADATA% AwasuId}",
+		"channel": "{%CHANNEL-METADATA% name}",
+        "title": "{%ITEM-METADATA% name!}",
+        "published": "{%ITEM-METADATA% timestamp noCaption}",
+        "url": "{%ITEM-METADATA% url}",
+        "state": "{%ITEM-STATE%}"
+    } {%/REPEAT%}
+]
+{%/REPEAT%}
+}

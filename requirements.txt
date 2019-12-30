@@ -1,0 +1,7 @@
+flask
+json
+requests
+pandas
+modin
+tqdm
+arrow
