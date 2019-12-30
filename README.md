@@ -1,4 +1,4 @@
-#About
+# About
 
 This is web interface for Awasu application. It's used to browse and basic export articles. Without Awasu will not work and some functionalities will be broken.
 
