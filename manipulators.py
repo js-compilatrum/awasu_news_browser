@@ -1,4 +1,5 @@
 import json
+from collections import namedtuple
 from os import listdir
 from os import path
 import re
@@ -9,6 +10,8 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
+from config import AWASU_API_URL
+from config import AWASU_DEFAULT_CONFIG_PATH
 from config import BASE_SETTINGS_DIR
 from config import CONCEPT_DEBUG
 from config import CSV_BASE_SOURCE
@@ -16,6 +19,7 @@ from config import CSV_TEST_DATA
 from config import TOKEN
 
 CLEANING_KEY_PATTER = re.compile(r"^'{1,}\"{1,}(.*)\"{1,}'{1,}$")
+Articles_data = namedtuple('ArticlesData', 'exist articles_data indexes count')
 
 
 class AwasuDataProcessor:
@@ -62,7 +66,7 @@ class AwasuDataProcessor:
         Get awasu config.ini
         :return: Loaded config data
         """
-        config_path = r'C:\Users\User\AppData\Roaming\Awasu\config.ini'
+        config_path = AWASU_DEFAULT_CONFIG_PATH
         with open(config_path) as awasu_config_file:
             config_data: str = awasu_config_file.read()
 
@@ -161,7 +165,8 @@ class AwasuDataProcessor:
             found_match_guid += f"{channel_id['guid']},"
 
         found_match_guid = found_match_guid[:-1]  # remove last ','
-        folders_api_call = f"http://localhost:2604//channels/list?token={TOKEN}&format=json&folderId={found_match_guid}"
+        # TODO: Add it as API Call
+        folders_api_call = f"{AWASU_API_URL}channels/list?token={TOKEN}&format=json&folderId={found_match_guid}"
 
         return requests.get(folders_api_call).json()
 
@@ -268,6 +273,7 @@ class AwasuDataProcessor:
                 for article in data[channel]:
                     body = article
                     body['channel'] = self.clean_key(channel)
+                    body['published'] = self.format_awasu_date(article['published'])
                     articles.append(body)
         else:
             return -1
@@ -289,7 +295,7 @@ class AwasuDataProcessor:
         Update DataFrame. It may take some times
         :return: None
         """
-        report_run = f"http://localhost:2604//reports/run?token=GYmh3B&format=json&name=ALL_CSV"
+        report_run = f"AWASU_API_URL/reports/run?token=GYmh3B&format=json&name=ALL_CSV"
         print("Run report...")
         status = requests.get(report_run)
         if 'channelReports' in status:
@@ -402,3 +408,26 @@ class AwasuDataProcessor:
         :return: None
         """
         self.selected_arts.drop(int(article_index), inplace=True)
+
+    def filter_articles(self, mode, option=None):
+
+        if mode == 'allnews':
+            articles_data = self.get_news()
+        elif mode == 'infolder':
+            articles_data = self.filter_df(position=option)
+        elif mode == 'favorite':
+            articles_data = self.filter_df(favorite=option)
+        elif mode == 'quick':
+            articles_data = self.get_news().groupby('Channel Name').head(int(option)).reset_index(drop=True)
+        elif mode == 'searchagents':
+            articles_data = self.filter_df(searchagents='all')
+
+        exist_data = False
+
+        if len(articles_data) > 0:
+            exist_data = True
+        return Articles_data(exist=exist_data,
+                             articles_data=articles_data,
+                             indexes=articles_data.index.tolist(),
+                             count=articles_data.count()
+                             )

@@ -142,3 +142,5 @@ dmypy.json
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/vcs.xml
 /awasu/old_create_df.py
+/run_anb.cmd
+/tests/test_data.json

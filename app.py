@@ -6,15 +6,15 @@ from flask import send_from_directory
 import json
 import webbrowser
 
-from config import EXIST_DATA
 from config import LOCALHOST_URL
 from config import NEWS_PER_PAGE
+from config import OPEN_IN_BROWSER_EVERYTIME
 from config import OUTPUT_DIR
 from config import PUB_DIR
 from manipulators import AwasuDataProcessor
 from os import path
 
-VER = "0.3"
+VER = "0.3.1A"
 
 
 def _jinja2_filter_df_to_pxsize(df):
@@ -49,6 +49,10 @@ def _jinja2_filter_repair_pl_chars(text):
 
     return text
 
+def open_in_browser():
+    if OPEN_IN_BROWSER_EVERYTIME:
+        print(f'Opening in browser {LOCALHOST_URL}')
+        webbrowser.open(LOCALHOST_URL)
 
 app = flask.Flask(__name__)
 app.jinja_env.filters['df_to_pxsize'] = _jinja2_filter_df_to_pxsize
@@ -176,19 +180,9 @@ def show_page(mode, option, page):
     if page == 0:
         page = 1
 
-    if mode == 'allnews':
-        articles_data = awasu.get_news()
-    elif mode == 'infolder':
-        articles_data = awasu.filter_df(position=option)
-    elif mode == 'favorite':
-        articles_data = awasu.filter_df(favorite=option)
-    elif mode == 'quick':
-        articles_data = awasu.get_news().groupby('Channel Name').head(int(option)).reset_index(drop=True)
-    elif mode == 'searchagents':
-        articles_data = awasu.filter_df(searchagents='all')
-
-    size = len(articles_data)
-    indexes = articles_data.index.tolist()
+    news_data = awasu.filter_articles(mode=mode, option=option)
+    size = len(news_data.articles_data)
+    indexes = news_data.indexes
     page = int(page)
     start_loc = (page - 1) * NEWS_PER_PAGE
     end_loc = page * page_size
@@ -207,16 +201,16 @@ def show_page(mode, option, page):
     if next_page > count_pages:
         next_page = page
 
-    df_for_page = articles_data.iloc[start_loc:end_loc].dropna(axis=0, how='all')
+    df_for_page = news_data.articles_data.iloc[start_loc:end_loc].dropna(axis=0, how='all')
     df_for_page = df_for_page.drop_duplicates(['Item URL'])
     df_for_page = df_for_page.sort_values(by=['Channel Name', 'Published'], ascending=[True, False])
     showed_articles = df_for_page.count()
 
     return render_template('skeleton.html',
-                           exist_data=EXIST_DATA,
+                           exist_data=news_data.exist,
                            menu_folders=MENU_FOLDERS,
                            articles_data=df_for_page,
-                           df_size=articles_data.count(),
+                           df_size= news_data.count,
                            paginator_mode=mode,
                            paginator_option=option,
                            page=prev_page,
@@ -224,10 +218,10 @@ def show_page(mode, option, page):
                            showed_articles=showed_articles,
                            show_paginator=show_paginator,
                            articles_to_read=articles_to_read,
-                           count_pages=count_pages)
+                           count_pages=count_pages
+                           )
 
 
 if __name__ == '__main__':
-    print(f'Opening in browser {LOCALHOST_URL}')
-    webbrowser.open(LOCALHOST_URL)
+    open_in_browser()
     app.run()
