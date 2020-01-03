@@ -6,7 +6,7 @@ https://awasu.com/
 
 ## Installation
 
-pip install requirements.txt
+pip install -r requirements.txt
 
 Withoud it can't work. After that create file
 
