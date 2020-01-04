@@ -17,6 +17,7 @@ from config import CONCEPT_DEBUG
 from config import CSV_BASE_SOURCE
 from config import CSV_TEST_DATA
 from config import TOKEN
+from config import SEARCH_AGENT_PREFIX
 
 CLEANING_KEY_PATTER = re.compile(r"^'{1,}\"{1,}(.*)\"{1,}'{1,}$")
 Articles_data = namedtuple('ArticlesData', 'exist articles_data indexes count')
@@ -338,12 +339,19 @@ class AwasuDataProcessor:
         return folders_data
 
     def search_agents_channels(self):
+        '''
+        Match Search Agents by names. From convention their names start with prefix.
+
+        It is configurable as SEARCH_AGENT_PREFIX in config, default is "M >". All channels name
+        started with "M >" like "M > Continents" are matches as Search Agents.
+
+        :return: Search Agents names
+        '''
         search_agent_channels_names = []
         chs = list(set(self.df['Channel Name']))  # All channels names
-        prefix = 'M >'
 
         for channel in chs:
-            if channel.startswith(prefix):
+            if channel.startswith(SEARCH_AGENT_PREFIX):
                 search_agent_channels_names.append(channel)
 
         return search_agent_channels_names

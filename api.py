@@ -1,0 +1,2 @@
+class AwasuAPI:
+    pass

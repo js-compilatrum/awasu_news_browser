@@ -33,6 +33,8 @@ longer correct.
 '''
 OUTPUT_DIR = r'D:\selected'  # Where save selected articles as txt and csv
 OPEN_IN_BROWSER_EVERYTIME = True  # If run in browser open interface in default browser
+SEARCH_AGENT_PREFIX = "M >"
+''' All channels name started with "M >" like "M > Continents" are matches as Search Agents.'''
 
 # Security
 TOKEN = "abc123"
