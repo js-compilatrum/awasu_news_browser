@@ -14,7 +14,7 @@ from config import PUB_DIR
 from manipulators import AwasuDataProcessor
 from os import path
 
-VER = "0.3.1A"
+VER = "0.3.1A.1"
 
 
 def _jinja2_filter_df_to_pxsize(df):

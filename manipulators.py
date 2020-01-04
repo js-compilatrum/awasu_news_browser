@@ -68,7 +68,7 @@ class AwasuDataProcessor:
         :return: Loaded config data
         """
         config_path = AWASU_DEFAULT_CONFIG_PATH
-        with open(config_path) as awasu_config_file:
+        with open(config_path, mode='r', encoding='utf-8') as awasu_config_file:
             config_data: str = awasu_config_file.read()
 
         return config_data
@@ -252,11 +252,13 @@ class AwasuDataProcessor:
         """
         if not news_source_file:
             if CONCEPT_DEBUG:
+                print("No Awasu Data source with news. I'm trying use prepared data for test")
                 news_source_file: str = CSV_TEST_DATA
             else:
                 news_source_file: str = CSV_BASE_SOURCE
 
         if not path.exists(news_source_file):
+            print("I'm trying updating by get data from Awasu. Path in setup.py is not valid or file not exists.")
             self.update()
 
         if path.isfile(news_source_file):

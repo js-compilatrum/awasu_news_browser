@@ -11,7 +11,7 @@ pip install -r requirements.txt
 Withoud it can't work. After that create file
 
 #### config.py
-Open awasu directory, change example config.py and put in root (app.py, manipulators.py locations).
+Open awasu directory, change example config.py and put in root (app.py, manipulators.py locations). Use comments inside setup file to get information how manually configure all options.
 
 #### Details how run read in Flask documentation:
 https://flask.palletsprojects.com/en/1.1.x/quickstart/
