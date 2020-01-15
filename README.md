@@ -39,9 +39,19 @@ It's typical than when updating script is slowing down. Typical processing time 
 
 ## History
 -
+### 0.3.1 dev
+At branch development features I will start transition to Quark:
+https://pgjones.gitlab.io/quart/index.html
+
+General ideas and construction are similar to Flask (see provided doc above). It will be changed:
+1. New API call system
+2. New views design
+3. New system of selecting and processing data
+
+Use old branch to test configuration and play with structure. Changes are necessary to add autoconfiguration, new error system reports. It is design basic from scratch.
+
 ### 0.3
 Create layout based on Pandas DataFrame as backend.
-
 ### 0.2
 
 Add Flask as web server.
