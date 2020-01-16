@@ -276,7 +276,7 @@ class AwasuDataProcessor:
                 for article in data[channel]:
                     body = article
                     body['channel'] = self.clean_key(channel)
-                    body['published'] = self.format_awasu_date(article['published'])
+                    body['published'] = article['published'] # add faster loading if you use new version of JSON template
                     articles.append(body)
         else:
             return -1
