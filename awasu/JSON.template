@@ -5,7 +5,7 @@
         "id": "{%ITEM-METADATA% AwasuId}",
 		"channel": "{%CHANNEL-METADATA% name}",
         "title": "{%ITEM-METADATA% name!}",
-        "published": "{%ITEM-METADATA% timestamp noCaption}",
+        "published": "{%ITEM-METADATA% timestamp format="%Y-%m-%d %H:%M" noCaption}",
         "url": "{%ITEM-METADATA% url}",
         "state": "{%ITEM-STATE%}"
     } {%/REPEAT%}
