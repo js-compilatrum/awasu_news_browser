@@ -144,3 +144,5 @@ dmypy.json
 /awasu/old_create_df.py
 /run_anb.cmd
 /tests/test_data.json
+!/Scripts/
+!/Scripts/

@@ -44,11 +44,48 @@ At branch development features I will start transition to Quark:
 https://pgjones.gitlab.io/quart/index.html
 
 General ideas and construction are similar to Flask (see provided doc above). It will be changed:
-1. New API call system
-2. New views design
-3. New system of selecting and processing data
+1. New views design based on bootstrap
+2. New system of selecting and processing data (SQLite)
 
-Use old branch to test configuration and play with structure. Changes are necessary to add autoconfiguration, new error system reports. It is design basic from scratch.
+Currently I finish new API skeleton and I create base for tests with pytest and start creating DB support. API system use two way of communicate with Awasu - using async and sync calls.
+
+Awasu API call library
+
+Use AwasuAPI to makes calls and ParamsBuilder to prepare list of api calls
+
+**Examples:**
+
+Preparing to calls is by use ParamsBuilder. Yo have to pass api name from documentation and params. As result it will be dict with necessary options.
+
+    pb = ParamsBuilder()
+    pb.make(api_name="search/query", query="Donald Trump", max=100)
+    pb.make(api_name="search/query", query="Europe", max=100)
+    pb.make(api_name="search/query", query="USA", max=100)
+    
+    new_params = pb.prepared_params # Pass here to call_api()/acall_api()
+
+Typical API declaration is convention which I want to use in project:
+
+`
+api = AwasuAPI()
+`
+
+Synchronous API call (blocking) is used when you want play with api in single calls fx. run reports or modify old design with Flask (main branch).
+
+`
+print(api.call_awasu("buildInfo"))
+`
+
+Async gathering data (non blocking) is use to short delay in response. Typically it is for get basic information like structure folders, information about channels. It is important that order is not matter here. If you want run report and after that use call related to this operation you have to call once run report or you can miss something. It is how async works and it is not by design. For better input what is going to console use print_colored. It has predefined colors to use in console to get information from inside what is going on. When you with Params Builder create your calls you only have to get it to multicall. As I tested this design limit max number to 208 API calls. Above that you will be get app crash. It is walkaround it with Semaphore in Trio (I use it in place asyncio to get in future skeleton for background tasks and to simplify code) which can you use to limit calls to Awasu, but for the most case it is simply do not make sence. Using session do not improve calls. It is real in typical scenarion that your calls will be finish in time around 4 seconds. Using requests I get for 8 calls around 4 minutes. It is related to activity on PC and in Awasu itself. You have to observe when Awasu is updating and when has idle time. Typical errors when updating can slow down API and you have to be aware this type of problems.
+
+    print_colored("PROCESSING", new_params)
+    api.start_multicalls(new_params)  # Here put ParamsBuilder.prepared_params when you finish make items on list to call
+    result = api.gathered_data
+    print_colored("INFO", result)
+
+
+#### Atention!
+Use old branch to test configuration and play with structure. Changes are necessary to add autoconfiguration, new error system reports. Development-features branch - it is design coded from scratch.
 
 ### 0.3
 Create layout based on Pandas DataFrame as backend.
