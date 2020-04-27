@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+{% import "macros/menus.html" as menu_generator %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ANB {% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Features-Blue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Highlight-Blue.css') }}">
+{% block inline_styles %}{% endblock %}
+<body>
+    <div style="background-color: #f4ed7c;">
+    {% block main_menu %}
+        {{ menu_generator.main_menu() }}
+    {% endblock %}
+    {% block submenu %}
+        {{ menu_generator.submenu(main_menu_item, menu_items) }}
+    {% endblock %}
+    {% block content %}{% endblock %}
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src=".{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bs-init.js') }}"></script>
+</body>
+</html>

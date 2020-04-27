@@ -1,0 +1,9 @@
+{% import "macros/tables.html" as tables_generator %}
+{% import "macros/browsing.html" as browsing %}
+{% extends "base.html" %}
+{% block title %} | Articles {% endblock %}
+<body>
+{% block content %}
+    {{ tables_generator.article_table(articles_data) }}
+    {{ browsing.paginator(paginator) }}
+{% endblock %}
