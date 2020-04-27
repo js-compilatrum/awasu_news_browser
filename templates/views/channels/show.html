@@ -1,0 +1,47 @@
+{% import "macros/tables.html" as tables_generator %}
+{% import "macros/browsing.html" as browsing%}
+{% extends "base.html" %}
+{% block title %} | Articles from {{ channel_description['name'] }} [{{ articles_data|length }}]{% endblock %}
+<body>
+{% block submenu %}
+        <div class="d-md-flex justify-content-md-center align-items-md-center">
+            <nav class="navbar navbar-light navbar-expand-md" style="background-color: #f4ed47;">
+                <div class="container-fluid"><a class="navbar-brand" href="{{ channel_description['home_url'] }}" target="_blank">{{ channel_description['name'] }} [{{ articles_data|length }}]</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse"
+                        id="navcol-1">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item" role="presentation"><a class="nav-link active" href="#">{{ channel_description['channel_folders'] }}<br></a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="file://{{ channel_description['config_filename'] }}">Config file</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="file://{{ channel_description['last_feed_filename'] }}">Feed filename</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <blockquote class="blockquote">
+                    <p class="mb-0">{{ channel_description['description'] }}.</p>
+                    <footer class="blockquote-footer">{{ channel_description['feed_url'] }}<br></footer>
+                </blockquote>
+            </div>
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <p><strong>Update errors:&nbsp;</strong>{{ channel_description['update_error_count'] }}<br></p>
+                <hr>
+            </div>
+            <div class="col">
+                <p><strong>Update time:&nbsp;</strong>{{ channel_description['auto_update_interval'] }} | {{ channel_description['last_successful_update_timestamp']|timestamp_to_normal_date }}<br></p>
+                <hr>
+            </div>
+            <div class="col"></div>
+        </div>
+        {% endblock %}
+{% block content %}
+    {{ tables_generator.article_table(articles_data) }}
+    {{ browsing.paginator(paginator) }}
+{% endblock %}

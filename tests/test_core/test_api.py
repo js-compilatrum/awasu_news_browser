@@ -16,6 +16,7 @@ from core.settings.config import AWASU_API
 #
 # AwasuCallParams = namedtuple('AwasuCallData', 'api_name params')
 
+
 def test_api_invalid_token():
     TOKEN = ""
     api = AwasuAPI()

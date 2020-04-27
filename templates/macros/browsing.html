@@ -1,0 +1,25 @@
+## Details connected with browsing and viewing performance
+
+{% macro paginator(paginator) %}
+    {% if paginator %}
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"><button class="btn btn-primary text-center d-block float-right" type="button">PREVIOUS</button></div>
+                <div class="col-md-4 text-center">
+                    <nav class="text-center text-dark shadow d-inline-flex" data-toggle="tooltip" data-bs-tooltip="" title="Click to browse">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-4"><button class="btn btn-primary float-left" type="button">NEXT</button></div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endmacro %}

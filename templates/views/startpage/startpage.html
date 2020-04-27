@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %} Awasu News Browser {% endblock %}
+{% block submenu %} <!-- no submenu --> {% endblock %}
+{% block content %}
+    <div class="features-blue">
+            <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Awasu News Browser {{ ver }}</h2>
+                {% if  debug_mode %}<div class="alert alert-danger" role="alert"><span><strong>DEBUG MODE</strong> is activated</span></div>{% endif %}
+                <p class="text-center"><strong>Source</strong> from {{ source_created }},<strong> articles</strong>: 20000000000, <strong>channels</strong>: 40000000</p>
+            </div>
+            <div class="row features">
+                <div class="col-sm-6 col-md-4 item"><i class="fa fa-file-text-o icon"></i>
+                    <h3 class="name">Articles</h3>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{{ url_for("articles.articles_index") }}">Latest</a><span>List Group Item 1</span></li>
+{#                        <li class="list-group-item"><span><a href="#">Link</a>List Group Item 2</span></li>#}
+{#                        <li class="list-group-item"><span>List Group Item 3</span></li>#}
+{#                        <li class="list-group-item"><span>List Group Item 3</span></li>#}
+{#                        <li class="list-group-item"><span>List Group Item 3</span></li>#}
+{#                        <li class="list-group-item"><span>List Group Item 3</span></li>#}
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><i class="fa fa-object-group icon"></i>
+                    <h3 class="name">Channels</h3>
+                    <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est.</p>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><i class="fa fa-list-alt icon"></i>
+                    <h3 class="name">Categories</h3>
+                    <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est.</p>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><i class="fa fa-balance-scale icon"></i>
+                    <h3 class="name">Analytics</h3>
+                    <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est.</p>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><i class="fa fa-search icon"></i>
+                    <h3 class="name">Search</h3>
+                    <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est.</p>
+                </div>
+                <div class="col-sm-6 col-md-4 item"><i class="fa fa-check-square-o icon"></i>
+                    <h3 class="name">Selected</h3>
+                    <p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in tellus eu gravida. Aliquam varius finibus est.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-blue">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Settings</h2>
+                <p class="text-center">Main status: no errors</p>
+            </div>
+            <div class="buttons"><a class="btn btn-primary" role="button" href="#">Change settings</a></div>
+        </div>
+    </div>
+{% endblock %}

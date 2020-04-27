@@ -1,0 +1,31 @@
+## Menus
+
+{% macro main_menu() -%}
+ <ul class="nav nav-tabs">
+     <li class="nav-item"><a class="nav-link" href="{{ url_for("articles.articles_index") }}">Articles</a></li>
+     <li class="nav-item"><a class="nav-link" href="{{ url_for("categories.categories_index") }}">Categories</a></li>
+{#     <li class="nav-item"><a class="nav-link" href="{{ url_for("articles.articles_index") }}">Channels</a></li>#}
+{#     <li class="nav-item"><a class="nav-link" href="{{ url_for("articles.articles_index") }}">Search</a></li>#}
+{#     <li class="nav-item"><a class="nav-link" href="{{ url_for("articles.articles_index") }}">Selected</a></li>#}
+{#     <li class="nav-item"><a class="nav-link" href="{{ url_for("articles.articles_index") }}">Settings</a></li>#}
+ </ul>
+{% endmacro %}
+
+{% macro submenu(main_item, items) %}
+    {% if main_item and items %}
+        <div class="d-md-flex justify-content-md-center align-items-md-center">
+            <nav class="navbar navbar-light navbar-expand-md" style="background-color: #f5ed2b;">
+                <div class="container-fluid"><a class="navbar-brand" href="#">{{ main_item }}</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse"
+                        id="navcol-1">
+                        <ul class="nav navbar-nav">
+                            {% for item, link in items.items() %}
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="{{ url_for(link.route, *link.params) }}">{{ item }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    {% endif %}
+{% endmacro %}

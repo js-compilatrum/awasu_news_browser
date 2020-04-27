@@ -1,0 +1,50 @@
+## Tables
+{% macro article_table(articles_data) %}
+    <div class="bg-primary d-md-flex justify-content-md-center">
+    <div class="table-responsive table-bordered text-break bg-light border-secondary">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead class="text-uppercase text-center text-primary bg-dark border rounded-0 border-primary">
+                        <tr>
+                            <th>Channel</th>
+                            <th>Title</th>
+                            <th class="text-center">Published</th>
+                            <th>URL</th>
+                            <th>Save</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {%  if articles_data %}
+                    {% for article in articles_data %}
+                        {% if article.channel == '##' %}
+                         <tr class="table-danger">
+                            <td><a name="p{{ loop.index }}"></a><a href="#p{{ loop.index + 1 }}">[SKIP]</a><b class="table-dark">{{ article.title}}</b></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><!--<button class="btn btn-primary" type="button"><i class="fa fa-save"></i></button>--></td>
+                        </tr>
+                        {% else %}
+                        <tr class="flex-shrink-0">
+                            <td><a href="{{ url_for("channels.show", name=article.channel) }}">{{ article.channel }}</a></td>
+                            <td>[{{ loop.index }}] {{ article.title}}</td>
+                            <td>{{ article.published }}</td>
+                            <td><a href="{{article.url}}" target="_blank">[ URL ]</a></td>
+                            <td><!--<button class="btn btn-primary" type="button"><i class="fa fa-save"></i></button>--></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td><a href="#">-</a><br></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>N/A</td>
+                        </tr>
+                    {% endif %}
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+{% endmacro %}

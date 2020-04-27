@@ -1,3 +1,5 @@
+PySimpleGUI
+ptoaster
 aiofiles==0.4.0
 anyio==1.2.3
 arrow==0.15.5
@@ -46,3 +48,14 @@ typing-extensions==3.7.4.1
 urllib3==1.25.7
 wcwidth==0.1.8
 wsproto==0.15.0
+
+pip~=19.0.3
+wheel~=0.33.6
+cryptography~=2.8
+lxml~=4.4.2
+setuptools~=40.8.0
+boltons~=20.0.0
+pandas~=0.25.3
+datefinder~=0.7.0
+parsel~=1.5.2
+Scrapy~=1.8.0

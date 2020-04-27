@@ -30,4 +30,4 @@ def print_colored(mode: str, text: str) -> None:
               TextColor.RESET.value,
               flush=True)
     except KeyError:
-        print("Unknown color to use. Check 'TextColor' to get correct value")
+        raise ValueError("Unknown color to use. Check 'TextColor' to get correct value")

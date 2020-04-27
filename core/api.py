@@ -10,10 +10,11 @@ import requests
 from requests import Response
 import trio
 
-from core.helpers import print_colored
+from core.data.presentation import print_colored
 from core.settings.config import AWASU_API
 from core.settings.config import TOKEN
 from core.settings.slices import BEGINNING_OF_RESPONSE
+from core.settings.slices import FIRST_FROM_LIST
 """
 Awasu API call library
 
@@ -133,7 +134,7 @@ class AwasuAPI:
 
         try:
             json_data = json.loads(resp.content)
-            self.data.append({url: json_data})
+            self.data.append({list(json_data.keys())[FIRST_FROM_LIST]: json_data})
             return json_data
         except JSONDecodeError:
             # It's expected that primary format in API call will be json. If you change to HTML / XML it will be broke
@@ -176,17 +177,13 @@ class AwasuAPI:
     def gathered_data(self):
         return self.data
 
-    @property
-    def base_information(self):
-        pass
-
 
 @attr.s(auto_attribs=True)
 class ParamsBuilder:
     params: list = attr.ib(default=[])
 
     def make(self, **kwargs):
-        if not 'api_name' in kwargs:
+        if 'api_name' not in kwargs:
             raise AwasuExceptionInAPI("You are not defined 'api_name' in make method. Calling to API is impossible!")
 
         print(kwargs)

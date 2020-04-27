@@ -1,0 +1,32 @@
+{% import "macros/tables.html" as tables_generator %}
+{% import "macros/browsing.html" as browsing %}
+{% extends "base.html" %}
+{% block title %} | Articles from {{ folders_names }} {% endblock %}
+{% block inline_styles %}
+<style>
+    .categories li {
+        border-style: dot-dash;
+        border: 2px dot-dash #0d87e9;
+        padding-right: 3px;
+    }
+</style>
+{% endblock %}
+{%  block submenu %}
+    <div class="d-md-flex justify-content-md-center align-items-md-center"></div>
+        <nav class="navbar navbar-light navbar-expand-md" style="background-color: #c4d5ef;">
+            <div class="container-fluid"><a class="navbar-brand" href="#">[ Search Agents ]</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse"
+                    id="navcol-2">
+                    <ul class="nav navbar-nav categories">
+                        {% for main_folder in main_folders %}
+                        <li class="nav-item" role="presentation"><a class="nav-link active" href="{{ url_for('categories.articles_from_folders_names', names=main_folder) }}">[ {{ main_folder }} ]</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+{% endblock %}
+{% block content %}
+    {{ tables_generator.article_table(articles_data) }}
+    {{ browsing.paginator(paginator) }}
+{% endblock %}
