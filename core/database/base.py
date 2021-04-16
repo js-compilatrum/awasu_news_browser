@@ -166,7 +166,10 @@ def create_channels_table(data):
             if convert_name_to_pep(key) in database_fields
         }
         folders = channel['channelFolders']
-        channel_info['channel_folders'] = ';'.join([folder['name'] for folder in folders])
+        channel_info['channel_folders'] = ';'.join(
+            folder['name'] for folder in folders
+        )
+
         session.add(Channels(**channel_info))
     session.commit()
 
