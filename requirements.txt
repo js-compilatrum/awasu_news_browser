@@ -48,9 +48,8 @@ typing-extensions==3.7.4.1
 urllib3==1.25.8
 wcwidth==0.1.8
 wsproto==0.15.0
-
 pip~=19.0.3
-wheel~=0.33.6
+wheel>=0.38.1
 cryptography~=2.8
 lxml~=4.4.2
 setuptools>=65.5.1
