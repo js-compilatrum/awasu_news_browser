@@ -57,4 +57,4 @@ boltons~=20.0.0
 pandas~=0.25.3
 datefinder~=0.7.0
 parsel~=1.5.2
-Scrapy~=1.8.0
+Scrapy>2.8.0
