@@ -1,3 +1,7 @@
+# Status
+
+Currently I don't have time for this project to make it further. I hope before that I will be find out few people to share idea with it and make it more workable, but it ended another way. I will try updates only requirement and security since 28.02.2024 for maintance only.
+
 # About
 
 This is web interface for Awasu application. It's used to browse and basic export articles. Without Awasu will not work and some functionalities will be broken.
